@@ -13,12 +13,24 @@
   <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
 <% end %>
 
-<table class="table table-striped col-md-12" id="movies">
+<% ratings_hash = @ratings_to_show.map { |rating| [rating, '1'] }.to_h %>
+
+<table class="table table-striped col-md-12" id=-"movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <th>
+        <%= link_to 'Movie Title', movies_path(sort_by: 'title', ratings: ratings_hash) %>
+        <% if @sort_by == 'title' %>
+          <div class="<%= 'htitle' %> p-3 mb-2 bg-warning text-dark"></div>
+        <% end %>
+      </th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th>
+        <%= link_to 'Release Date', movies_path(sort_by: 'release_date', ratings: ratings_hash) %>
+        <% if @sort_by == 'release_date' %>
+          <div class="<%= 'htitle' %> p-3 mb-2 bg-warning text-dark"></div>
+        <% end %>
+      </th>
       <th>More Info</th>
     </tr>
   </thead>

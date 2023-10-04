@@ -8,9 +8,9 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.distinct.pluck(:rating)
+    @all_ratings = ['G','PG','PG-13','R','NC-17']
     @ratings_to_show = params[:ratings].present? ? params[:ratings].keys : []
-    @movies = Movie.with_ratings(@ratings_to_show)
+    @movies = params[:sort_by].present? ? Movie.with_ratings(@ratings_to_show, params[:sort_by]): Movie.with_ratings(@ratings_to_show)
   end
 
   def new
