@@ -8,6 +8,15 @@ class MoviesController < ApplicationController
   end
 
   def index
+    # If sorting or ratings parameters are provided, update the session.
+    if params[:sort_by] || params[:ratings]
+      session[:sort_by] = params[:sort_by] if params[:sort_by].present?
+      session[:ratings] = params[:ratings] if params[:ratings].present?
+    else
+      # If sorting or ratings parameters aren't provided, restore from the session.
+      params[:sort_by] = session[:sort_by] if session[:sort_by].present?
+      params[:ratings] = session[:ratings] if session[:ratings].present?
+    end
     @all_ratings = ['G','PG','PG-13','R','NC-17']
     @ratings_to_show = params[:ratings].present? ? params[:ratings].keys : []
     @movies = params[:sort_by].present? ? Movie.with_ratings(@ratings_to_show, params[:sort_by]): Movie.with_ratings(@ratings_to_show)
